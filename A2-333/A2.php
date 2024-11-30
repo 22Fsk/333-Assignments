@@ -1,10 +1,8 @@
 <?php
 
-// API endpoint (replace with the actual URL from the Bahrain Data Portal)
 $api_url = "https://data.gov.bh/api/explore/v2.1/catalog/datasets/01-statistics-of-students-nationalities_updated/records?limit=100";
 
 
-// Initialize cURL session
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -19,14 +17,12 @@ if (curl_errno($ch)) {
 }
 curl_close($ch);
 
-// Decode JSON response
 $data = json_decode($response, true);
 if ($data === null) {
     echo "Error decoding JSON data.";
-    //echo "<pre>";
     exit();
 }
-// Check if the 'results' key exists in the response
+
 if (isset($data['results'])) {
     $studentsData = $data['results']; // Store the records in a variable
 } else {
@@ -45,33 +41,61 @@ if (isset($data['results'])) {
     <!-- Link to Pico CSS -->
     <link rel="stylesheet" href="https://unpkg.com/picocss@1.5.1/dist/pico.min.css">
     <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: outo; 
+        word-wrap: break-word; 
+        font-family: 'Calibri', sans-serif;
+
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #ffffff;
+        }
+    td {
+        text-overflow: ellipsis;
+        overflow: hidden;  
+        word-wrap: break-word; 
+        overflow: hidden;
+    }
+
+    /* Make the table horizontally scrollable */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
+    }
+
+    tr:nth-child(odd) {
+        background-color: #f9f9f9; 
+    }
+    tr:nth-child(even) {
+        background-color: #ffffff; 
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
         table {
-            width: 100%;
-            border-collapse: collapse;
+            font-size: 14px; /* Reduce font size for small screens */
         }
         th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
+            padding: 8px; /* Reduce padding for small screens */
         }
-        th {
-            background-color: #f4f4f4;
-        }
-        td {
-            text-overflow: ellipsis;
-            overflow: auto;
-            white-space: nowrap;
-        }
-            
-    </style>
+    }
+</style>
+
 </head>
 <body>
-
+<div class="table-wrapper">
 <div class="container">
     <h1>UOB Student Nationality Data</h1>
 
     <!-- Table to display the fetched data -->
-    <table>
+    <table class="striped">
         <thead>
             <tr>
                 <th>Year</th>
@@ -107,6 +131,7 @@ if (isset($data['results'])) {
                 ?>
         </tbody>
     </table>
+</div>
 </div>
 
 </body>

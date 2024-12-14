@@ -7,8 +7,9 @@ async function fetchData() {
         const response = await fetch(apiUrl);
         const data = await response.json();
 
-        if (!data || !data.records) {
-            console.error("No data found");
+        // Check if the 'records' array exists in the response
+        if (!data || !data.records || data.records.length === 0) {
+            console.error("No records found in the data.");
             return;
         }
 
@@ -16,6 +17,10 @@ async function fetchData() {
 
         // Iterate through the records and add them to the table
         data.records.forEach(item => {
+            // Debugging: Log the item to check the structure of the response
+            console.log(item); // Remove or comment out this line after debugging
+
+            // Make sure to access the correct fields from the response
             const year = item.year || 'N/A';
             const semester = item.semester || 'N/A';
             const program = item.the_programs || 'N/A';
@@ -23,8 +28,10 @@ async function fetchData() {
             const college = item.colleges || 'N/A';
             const numberOfStudents = item.number_of_students || 'N/A';
 
+            // Create a new table row
             const row = document.createElement("tr");
 
+            // Add data into the row
             row.innerHTML = `
                 <td>${year}</td>
                 <td>${semester}</td>
@@ -34,6 +41,7 @@ async function fetchData() {
                 <td>${numberOfStudents}</td>
             `;
 
+            // Append the row to the table body
             tableBody.appendChild(row);
         });
     } catch (error) {
@@ -43,3 +51,4 @@ async function fetchData() {
 
 // Call the fetchData function to retrieve and display the data
 fetchData();
+

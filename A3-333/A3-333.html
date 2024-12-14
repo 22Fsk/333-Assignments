@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UOB Student Nationality Data</title>
+    <!-- Link to Pico CSS for clean, responsive design -->
+    <link rel="stylesheet" href="https://unpkg.com/picocss@1.5.1/dist/pico.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+            word-wrap: break-word;
+            font-family: 'Calibri', sans-serif;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffffff;
+        }
+
+        td {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        /* Make the table horizontally scrollable */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="table-wrapper">
+        <div class="container">
+            <h1>UOB Student Nationality Data</h1>
+            <!-- Table to display the fetched data -->
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Semester</th>
+                        <th>Program</th>
+                        <th>Nationality</th>
+                        <th>College</th>
+                        <th>Number of Students</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table-body">
+                    <!-- Table rows will be dynamically added here using JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="A3-333.js"></script>
+</body>
+
+</html>

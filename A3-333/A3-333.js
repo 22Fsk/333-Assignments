@@ -1,54 +1,63 @@
-// API URL
-const apiUrl = "https://data.gov.bh/api/explore/v2.1/catalog/datasets/01-statistics-of-students-nationalities_updated/records?where=colleges%20like%20%22IT%22%20AND%20the_programs%20like%20%22bachelor%22&limit=100";
+const apiUrl = "https://data.gov.bh/api/explore/v2.1/catalog/datasets/01-statistics-of-students-nationalities_updated/records?limit=100";
 
-// Fetch data from API and populate the table
 async function fetchData() {
     try {
+        console.log("Fetching data from:", apiUrl);
         const response = await fetch(apiUrl);
-        const data = await response.json();
 
-        // Check if the 'records' array exists in the response
-        if (!data || !data.records || data.records.length === 0) {
-            console.error("No records found in the data.");
-            return;
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
 
-        const tableBody = document.getElementById("data-table-body");
+        const data = await response.json();
+        console.log("API Response:", data);
 
-        // Iterate through the records and add them to the table
-        data.records.forEach(item => {
-            // Debugging: Log the item to check the structure of the response
-            console.log(item); // Remove or comment out this line after debugging
-
-            // Make sure to access the correct fields from the response
-            const year = item.year || 'N/A';
-            const semester = item.semester || 'N/A';
-            const program = item.the_programs || 'N/A';
-            const nationality = item.nationality || 'N/A';
-            const college = item.colleges || 'N/A';
-            const numberOfStudents = item.number_of_students || 'N/A';
-
-            // Create a new table row
-            const row = document.createElement("tr");
-
-            // Add data into the row
-            row.innerHTML = `
-                <td>${year}</td>
-                <td>${semester}</td>
-                <td>${program}</td>
-                <td>${nationality}</td>
-                <td>${college}</td>
-                <td>${numberOfStudents}</td>
-            `;
-
-            // Append the row to the table body
-            tableBody.appendChild(row);
-        });
+        if (data.results && Array.isArray(data.results)) {
+            renderTable(data.results);
+        } else {
+            console.error("Unexpected API structure. Data:", data);
+        }
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
+        alert("Error fetching data. Check the console for details.");
     }
 }
 
-// Call the fetchData function to retrieve and display the data
-fetchData();
+function renderTable(data) {
+    const tableBody = document.querySelector("#data-table tbody");
+    tableBody.innerHTML = ""; // Clear existing rows
 
+    console.log("Rendering data:", data);
+
+    data.forEach(item => {
+        const year = item.year || 'N/A';
+        const semester = item.semester || 'N/A';
+        const program = item.the_programs || 'N/A';
+        const nationality = item.nationality || 'N/A';
+        const college = item.colleges || 'N/A';
+        const numberOfStudents = item.number_of_students || 'N/A';
+
+        console.log("Row data:", { year, semester, program, nationality, college, numberOfStudents });
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${sanitizeHTML(year)}</td>
+            <td>${sanitizeHTML(semester)}</td>
+            <td>${sanitizeHTML(program)}</td>
+            <td>${sanitizeHTML(nationality)}</td>
+            <td>${sanitizeHTML(college)}</td>
+            <td>${sanitizeHTML(numberOfStudents)}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function sanitizeHTML(content) {
+    const temp = document.createElement("div");
+    temp.textContent = content;
+    return temp.innerHTML;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchData();
+});

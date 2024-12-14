@@ -1,72 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UOB Student Nationality Data</title>
-    
     <link rel="stylesheet" href="https://unpkg.com/picocss@1.5.1/dist/pico.min.css">
     <style>
         table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: auto;
-            word-wrap: break-word;
             font-family: 'Calibri', sans-serif;
         }
-
-        th,
-        td {
+        th, td {
             padding: 12px;
             text-align: left;
         }
-
-        th {
-            background-color: #ffffff;
-        }
-
-        td {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            word-wrap: break-word;
-        }
-
-        
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #f9f9f9;
-        }
-
-        tr:nth-child(even) {
-            background-color: #ffffff;
-        }
-
-        
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-
-            th,
-            td {
-                padding: 8px;
-            }
-        }
+        tr:nth-child(odd) { background-color: #f9f9f9; }
+        tr:nth-child(even) { background-color: #ffffff; }
     </style>
 </head>
-
 <body>
-    <div class="table-wrapper">
-        <div class="container">
-            <h1>UOB Student Nationality Data</h1>
-            
-            <table class="striped">
+    <div class="container">
+        <h1>UOB Student Nationality Data</h1>
+        <div class="table-wrapper">
+            <table id="data-table">
                 <thead>
                     <tr>
                         <th>Year</th>
@@ -77,15 +34,12 @@
                         <th>Number of Students</th>
                     </tr>
                 </thead>
-                <tbody id="data-table-body">
-                   
+                <tbody>
+                    <!-- Data will be dynamically populated -->
                 </tbody>
             </table>
         </div>
     </div>
-
-    
-    <script src="A3-333.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>
